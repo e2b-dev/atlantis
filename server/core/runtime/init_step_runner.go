@@ -13,11 +13,20 @@ import (
 	"github.com/runatlantis/atlantis/server/utils"
 )
 
-// InitStep runs `terraform init`.
+// InitStepRunner runs `terraform init`.
 type InitStepRunner struct {
 	TerraformExecutor     TerraformExec
 	DefaultTFDistribution terraform.Distribution
 	DefaultTFVersion      *version.Version
+}
+
+func NewInitStepRunner(terraformExecutor TerraformExec, defaultTfDistribution terraform.Distribution, defaultTfVersion *version.Version) Runner {
+	runner := &InitStepRunner{
+		TerraformExecutor:     terraformExecutor,
+		DefaultTFDistribution: defaultTfDistribution,
+		DefaultTFVersion:      defaultTfVersion,
+	}
+	return NewWorkspaceStepRunnerDelegate(terraformExecutor, defaultTfDistribution, defaultTfVersion, runner)
 }
 
 func (i *InitStepRunner) Run(ctx command.ProjectContext, extraArgs []string, path string, envs map[string]string) (string, error) {

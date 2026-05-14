@@ -704,11 +704,7 @@ func NewServer(userConfig UserConfig, config Config) (*Server, error) {
 		Locker:           projectLocker,
 		LockURLGenerator: router,
 		Logger:           logger,
-		InitStepRunner: &runtime.InitStepRunner{
-			TerraformExecutor:     terraformClient,
-			DefaultTFDistribution: defaultTfDistribution,
-			DefaultTFVersion:      defaultTfVersion,
-		},
+		InitStepRunner: runtime.NewInitStepRunner(terraformClient, defaultTfDistribution, defaultTfVersion),
 		PlanStepRunner:        runtime.NewPlanStepRunner(terraformClient, defaultTfDistribution, defaultTfVersion, commitStatusUpdater, terraformClient),
 		ShowStepRunner:        showStepRunner,
 		PolicyCheckStepRunner: policyCheckStepRunner,
