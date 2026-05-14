@@ -54,7 +54,6 @@ jobs:
 
   build:
     needs: [changes]
-    if: needs.changes.outputs.should-run-build == 'true'
     name: Build Image
     permissions:
       contents: read
